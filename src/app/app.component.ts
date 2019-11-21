@@ -28,17 +28,6 @@ export class AppComponent implements OnInit {
       // fadeAnimation: false,
     }).fitWorld();
 
-    L.tileLayer(
-      'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
-      {
-        id: 'mapbox.light',
-        maxZoom: 50,
-        minZoom: 2,
-        accessToken:
-          'pk.eyJ1IjoicmVuYW50aGVvZG9ybyIsImEiOiJjazJxZ3MxejMwZXhqM2N1aW0wNHo3dGh2In0.Btx6bQIIVyYNmQaNAkkaRA'
-      }
-    ).addTo(this.map);
-
     // Europa
     const europeLat = 38.7222524;
     const europeLong = -9.13933658999997;
@@ -53,14 +42,13 @@ export class AppComponent implements OnInit {
       'svg'
     );
     svgElement.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    svgElement.setAttribute('id', 'europeAmoeba');
     svgElement.setAttribute('viewBox', '0 0 624.09 711.92');
     svgElement.innerHTML = `
       <defs>
           <style>.cls-1{fill:#5793ea;opacity:0.3;}</style>
       </defs>
-      
       <title>cont-europa</title>
-
       <g id="Camada_2" data-name="Camada 2">
           <g id="Camada_2-2" data-name="Camada 2">
               <path class="cls-1" d="M622.09,382.44c0,58.58.66,275.79-54.94,306.92-58.48,32.75-211.25,2.1-291.76,2.1-66.76,0-131.27,37.71-218.61,10.73-74.3-23-54.34-127.77-54.34-196.67,0-54.43,6.68-156.79,51-194.72C106.08,265.8,204.73,72.64,281.08,33c75.56-39.22,201.35-44.45,253-10.46C645.23,95.62,622.09,319.39,622.09,382.44Z"/>
@@ -68,7 +56,24 @@ export class AppComponent implements OnInit {
       </g>
       `;
 
-    L.svgOverlay(svgElement, europeBounds).addTo(this.map);
+    const europeAmoeba = L.svgOverlay(svgElement, europeBounds, {
+      interactive: true
+    }).addTo(this.map);
+
+    europeAmoeba.on('click', event => {
+      this.goEurope();
+    });
+
+    L.tileLayer(
+      'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+      {
+        id: 'mapbox.light',
+        maxZoom: 50,
+        minZoom: 2,
+        accessToken:
+          'pk.eyJ1IjoicmVuYW50aGVvZG9ybyIsImEiOiJjazJxZ3MxejMwZXhqM2N1aW0wNHo3dGh2In0.Btx6bQIIVyYNmQaNAkkaRA'
+      }
+    ).addTo(this.map);
   }
 
   moveTo(lat, long, animationDuration) {
@@ -88,10 +93,10 @@ export class AppComponent implements OnInit {
   moveFlying(lat, long, zoom, animationDuration) {
     this.map.zoomOut(1);
     // setTimeout(() => {
-      this.moveTo(lat, long, animationDuration);
-      // setTimeout(() => {
-        this.flyTo(lat, long, zoom, animationDuration);
-      // }, animationDuration * 1000);
+    this.moveTo(lat, long, animationDuration);
+    // setTimeout(() => {
+    this.flyTo(lat, long, zoom, animationDuration);
+    // }, animationDuration * 1000);
     // }, 1000);
   }
 
@@ -133,17 +138,17 @@ export class AppComponent implements OnInit {
 
     this.moveFlying(brazil.lat, brazil.long, brazil.zoom, animationDuration);
   }
-  
+
   goEurope() {
-    // Brasil
-    const brazil = {
+    // Europa
+    const europe = {
       lat: 48.1050061,
       long: 4.1862144,
       zoom: 3
     };
-  
+
     const animationDuration = 2; // seconds
-  
-    this.moveFlying(brazil.lat, brazil.long, brazil.zoom, animationDuration);
+
+    this.moveFlying(europe.lat, europe.long, europe.zoom, animationDuration);
   }
 }
