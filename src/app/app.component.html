@@ -1,8 +1,93 @@
-<div id="map"></div>
+<div id="container" class="row">
+    <div class="col m3">
+        <div id="form">
+            <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="col s12"><br>
+                            Região<br>
+                            <div class="input-field">
+                                <input id="region_name" type="text" [(ngModel)]="form.region.name"
+                                    [ngModelOptions]="{standalone: true}">
+                                <label for="region_name">Nome</label>
+                            </div>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="region_lat" type="text" [(ngModel)]="form.region.lat"
+                                [ngModelOptions]="{standalone: true}">
+                            <label for="region_lat">Latitude</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="region_long" type="text" [(ngModel)]="form.region.long"
+                                [ngModelOptions]="{standalone: true}">
+                            <label for="region_long">Longitude</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="region_zoom" type="text" [(ngModel)]="form.region.zoom"
+                                [ngModelOptions]="{standalone: true}">
+                            <label for="region_zoom">Zoom</label>
+                        </div>
+                    </div>
 
-<div id="buttons">
+                    <div class="row">
+                        <div class="col s12">
+                            Ameba<br>
+                            <div class="input-field">
+                                <input id="url_image" type="text" [(ngModel)]="form.ameba.url"
+                                    [ngModelOptions]="{standalone: true}">
+                                <label for="url_image">URL Imagem</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            Limite 1:
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input id="ameba_lat1" type="text" [(ngModel)]="form.ameba.bounds.bound1.lat"
+                                        [ngModelOptions]="{standalone: true}">
+                                    <label for="ameba_lat1">Latitude</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input id="ameba_long1" type="text" [(ngModel)]="form.ameba.bounds.bound1.long"
+                                        [ngModelOptions]="{standalone: true}">
+                                    <label for="ameba_long">Longitude</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            Limite 2:
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input id="ameba_lat2" type="text" [(ngModel)]="form.ameba.bounds.bound2.lat"
+                                        [ngModelOptions]="{standalone: true}">
+                                    <label for="ameba_lat2">Latitude</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input id="ameba_long2" type="text" [(ngModel)]="form.ameba.bounds.bound2.long"
+                                        [ngModelOptions]="{standalone: true}">
+                                    <label for="ameba_long2">Longitude</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button (click)="goRegion()" id="button-europe" class="button">Ajustar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col m9">
+        <div id="map"></div>
+    </div>
+</div>
+
+
+<!-- <div id="buttons">
     <button (click)="goJapan()" id="button-japan" class="button">Japão</button>
     <button (click)="goSouthKorea()" id="button-south_korea" class="button">Coréia do sul</button>
     <button (click)="goBrazil()" id="button-brazil" class="button">Brasil</button>
     <button (click)="goEurope()" id="button-europe" class="button">Europa</button>
-</div>
+</div> -->

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
+import * as M from 'materialize-css';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +12,34 @@ export class AppComponent implements OnInit {
 
   map: L.Map;
 
+  form = {
+    region: {
+      name: '',
+      lat: null,
+      long: null,
+      zoom: null
+    },
+
+    ameba: {
+      url: '',
+      bounds: {
+        bound1: {
+          lat: null,
+          long: null
+        },
+        bound2: {
+          lat: null,
+          long: null
+        }
+      }
+    }
+  };
+
   constructor() {}
 
   ngOnInit() {
+    M.updateTextFields();
+
     this.map = L.map('map', {
       center: [0, 0],
       attributionControl: false,
@@ -29,40 +55,21 @@ export class AppComponent implements OnInit {
     }).fitWorld();
 
     // Europa
-    const europeLat = 38.7222524;
-    const europeLong = -9.13933658999997;
+    // const europeLat = 38.7222524;
+    // const europeLong = -9.13933658999997;
 
     const europeCorner1 = L.latLng(72.225842, -16.734994);
     const europeCorner2 = L.latLng(35.394257, 56.265224);
 
     const europeBounds = L.latLngBounds(europeCorner1, europeCorner2);
 
-    const svgElement = document.createElementNS(
-      'http://www.w3.org/2000/svg',
-      'svg'
-    );
-    svgElement.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-    svgElement.setAttribute('id', 'europeAmoeba');
-    svgElement.setAttribute('viewBox', '0 0 624.09 711.92');
-    svgElement.innerHTML = `
-      <defs>
-          <style>.cls-1{fill:#5793ea;opacity:0.3;}</style>
-      </defs>
-      <title>cont-europa</title>
-      <g id="Camada_2" data-name="Camada 2">
-          <g id="Camada_2-2" data-name="Camada 2">
-              <path class="cls-1" d="M622.09,382.44c0,58.58.66,275.79-54.94,306.92-58.48,32.75-211.25,2.1-291.76,2.1-66.76,0-131.27,37.71-218.61,10.73-74.3-23-54.34-127.77-54.34-196.67,0-54.43,6.68-156.79,51-194.72C106.08,265.8,204.73,72.64,281.08,33c75.56-39.22,201.35-44.45,253-10.46C645.23,95.62,622.09,319.39,622.09,382.44Z"/>
-          </g>
-      </g>
-      `;
+    // const imageUrl = '';
 
-    const europeAmoeba = L.svgOverlay(svgElement, europeBounds, {
-      interactive: true
-    }).addTo(this.map);
+    // const europeAmoeba = L.imageOverlay(imageUrl, europeBounds).addTo(this.map);
 
-    europeAmoeba.on('click', event => {
-      this.goEurope();
-    });
+    // europeAmoeba.on('click', event => {
+    //   this.goEurope();
+    // });
 
     L.tileLayer(
       'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
@@ -76,21 +83,21 @@ export class AppComponent implements OnInit {
     ).addTo(this.map);
   }
 
-  moveTo(lat, long, animationDuration) {
+  moveTo(lat, long, animationDuration = 2) {
     this.map.panTo([lat, long], {
       animate: true,
       duration: animationDuration
     });
   }
 
-  flyTo(lat, long, zoom, animationDuration) {
+  flyTo(lat, long, zoom, animationDuration = 2) {
     this.map.flyTo([lat, long], zoom, {
       animate: true,
       duration: animationDuration
     });
   }
 
-  moveFlying(lat, long, zoom, animationDuration) {
+  moveFlying(lat, long, zoom, animationDuration = 2) {
     this.map.zoomOut(1);
     // setTimeout(() => {
     this.moveTo(lat, long, animationDuration);
@@ -98,6 +105,48 @@ export class AppComponent implements OnInit {
     this.flyTo(lat, long, zoom, animationDuration);
     // }, animationDuration * 1000);
     // }, 1000);
+  }
+
+  insertAmeba(amebaUrl, amebaBound1, amebaBound2) {
+    const bound1 = L.latLng(
+      parseFloat(amebaBound1.lat),
+      parseFloat(amebaBound1.long)
+    );
+    const bound2 = L.latLng(
+      parseFloat(amebaBound2.lat),
+      parseFloat(amebaBound2.long)
+    );
+
+    const regionBounds = L.latLngBounds(bound1, bound2);
+
+    console.log('bound1', bound1);
+    console.log('bound2', bound2);
+    console.log('regionBounds', regionBounds);
+
+    const imageUrl = 'https://cdn.onlinewebfonts.com/svg/img_147665.png';
+
+    const europeAmoeba = L.imageOverlay(imageUrl, regionBounds).addTo(this.map);
+
+    const ameba = L.imageOverlay(imageUrl, regionBounds, {
+      interactive: true
+    }).addTo(this.map);
+
+    // ameba.on('click', event => {
+    //   this.goEurope();
+    // });
+  }
+
+  goRegion() {
+    this.insertAmeba(
+      this.form.ameba.url,
+      this.form.ameba.bounds.bound1,
+      this.form.ameba.bounds.bound2
+    );
+    this.moveFlying(
+      this.form.region.lat,
+      this.form.region.long,
+      this.form.region.zoom
+    );
   }
 
   goJapan() {
