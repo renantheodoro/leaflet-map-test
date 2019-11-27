@@ -119,15 +119,15 @@ export class AppComponent implements OnInit {
 
     const regionBounds = L.latLngBounds(bound1, bound2);
 
-    console.log('bound1', bound1);
-    console.log('bound2', bound2);
-    console.log('regionBounds', regionBounds);
+    // console.log('bound1', bound1);
+    // console.log('bound2', bound2);
+    // console.log('regionBounds', regionBounds);
 
-    const imageUrl = 'https://cdn.onlinewebfonts.com/svg/img_147665.png';
+    // const imageUrl = 'https://cdn.onlinewebfonts.com/svg/img_147665.png';
 
-    const europeAmoeba = L.imageOverlay(imageUrl, regionBounds).addTo(this.map);
+    const europeAmoeba = L.imageOverlay(amebaUrl, regionBounds).addTo(this.map);
 
-    const ameba = L.imageOverlay(imageUrl, regionBounds, {
+    const ameba = L.imageOverlay(amebaUrl, regionBounds, {
       interactive: true
     }).addTo(this.map);
 
